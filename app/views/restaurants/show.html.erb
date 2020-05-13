@@ -2,15 +2,32 @@
   <div class="row">
     <div class="col">
         <h1> <%= @restaurant.name %> </h1>
-
+        <h3> <%= @restaurant.category.capitalize %> </h3>
         <p> <%= @restaurant.address %> </p>
-        <p> <%= @restaurant.category %> </p>
-        <p> Reviews </p>
+        
+        <hr>
+
+        <p> <strong>Reviews</strong> </p>
         <ul>
           <% @restaurant.reviews.each do |review| %>
-            <li> <%= review.content %>, <%= review.rating %> </li>
+            <li> 
+              <% review.rating.times do %>
+                <i class="fas fa-star"></i>
+              <% end %>
+              <%= review.content %>
+            </li>
           <% end %>
         </ul>
+
+        <hr>
+
+        <p>Add a review</p>
+
+        <%= simple_form_for [@restaurant, @review] do |f| %>
+          <%= f.input :content %>
+          <%= f.input :rating, collection: (0..5).to_a %>
+          <%= f.submit class:"btn btn-primary"%>
+        <% end %>
     </div>
   </div>
 </div>
